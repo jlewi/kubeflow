@@ -90,6 +90,8 @@ data:
     ### Spawner Options
     ###################################################
     c.JupyterHub.spawner_class = KubeFormSpawner
+    c.KubeSpawner.user_storage_class = 'standard'
+    c.KubeSpawner.user_storage_pvc_ensure  = True
     c.KubeSpawner.singleuser_image_spec = 'gcr.io/kubeflow/tensorflow-notebook'
     c.KubeSpawner.cmd = 'start-singleuser.sh'
     c.KubeSpawner.args = ['--allow-root']
