@@ -22,6 +22,20 @@ rules:
 - apiGroups: ["*"]
   resources: ["pods"]
   verbs: ["*"]
+
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  namespace: default
+  name: volume-claims
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - persistentvolumeclaims
+  verbs: ["*"]
+
 ---
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1beta1
@@ -35,4 +49,19 @@ subjects:
 roleRef:
   kind: Role
   name: edit-pod
+  apiGroup: rbac.authorization.k8s.io
+
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: default-volume-claims
+  namespace: default
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: default
+roleRef:
+  kind: Role
+  name: volume-claims
   apiGroup: rbac.authorization.k8s.io
