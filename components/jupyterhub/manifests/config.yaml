@@ -110,13 +110,23 @@ data:
             'persistentVolumeClaim': {
                 'claimName': 'claim-{username}{servername}'
             }
+        },
+        {
+            'name': 'deepvariant-nfs',
+            'persistentVolumeClaim': {
+                'claimName': 'nfs'
+            }
         }
     ]
     c.KubeSpawner.volume_mounts = [
         {
             # This should point to homedir of the user in the image
-            'mountPath': '/home/jovyan',
+            'mountPath': '/home/jovyan/pd',
             'name': 'volume-{username}{servername}'
+        },
+        {
+            'mountPath': '/home/jovyan/deepvariant-pd',
+            'name': 'deepvariant-nfs'
         }
     ]
 
