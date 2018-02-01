@@ -17,4 +17,4 @@ spec:
     - nfsvers=4.1
   nfs:
     path: /data
-    server: 35.229.104.27
+    server: 10.142.0.6

@@ -11,7 +11,7 @@
     },
     workflows: {
       bucket: "mlkube-testing_temp",
-      name: "kubeflow-presubmit-81-2-39b6",
+      name: "training-presubmit-1-5-31203837",
       namespace: "kubeflow-test-infra",
       prow_env: "BUILD_NUMBER=2,JOB_NAME=kubeflow-presubmit,JOB_TYPE=presubmit,PULL_NUMBER=81,REPO_NAME=kubeflow,REPO_OWNER=google",
     },
