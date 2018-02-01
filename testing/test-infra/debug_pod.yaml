@@ -9,9 +9,11 @@ spec:
     spec:
       containers:
       - name: test-container
-        image: gcr.io/mlkube-testing/kubeflow-testing:latest
+        image: gcr.io/mlkube-testing/test-worker:latest
         command: ["tail", "-f", "/dev/null"]
         volumeMounts:
+          - mountPath: /mnt/data
+            name: nfs-external
           - mountPath: /mnt/test-data-volume
             name: kubeflow-test-volume
           - mountPath: /secret/gcp-credentials
@@ -21,6 +23,9 @@ spec:
             value: /secret/gcp-credentials/key.json
       restartPolicy: Never
       volumes:      
+        - name: nfs-external
+          persistentVolumeClaim:
+            claimName: nfs-external
         - name: kubeflow-test-volume
           persistentVolumeClaim:
             claimName: kubeflow-testing
