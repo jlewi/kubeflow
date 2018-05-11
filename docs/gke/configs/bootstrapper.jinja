@@ -16,14 +16,25 @@ One option would be to write a simple script to autogenerate this as part of the
 
 resources:
 - name: {{ NAME_PREFIX }}
-  type: cloud-ml-dev/jlewi-kubeflow-kubeflow-type
-  {#
-   type: properties["clusterTypeApiV1"]:NAMESPACE_COLLECTION
-   TODO(jlewi): How can we use references to plug this in
-   #}
+  type: {{ CLUSTER_TYPE }}:{{ SERVICE_COLLECTION }}
   properties:
     apiVersion: v1
-    kind: Namespace
+    kind: Service
+    namespace: default
     metadata:
-      name: kubeflow-admin
+      name: {{ NAME_PREFIX }}
+    spec:
+      # Creates an external IP through network load-balancer.
+      type: LoadBalancer
+      ports:
+      - port: {{ PORT }}
+        targetPort: {{ PORT }}
+        protocol: TCP
+      selector:
 
+  metadata:
+    dependsOn:
+    {# We can't create this until the CLUSTER_TYPE has been created which can't happen
+       Until the cluster is created.
+     #} 
+    - {{ CLUSTER_TYPE }}
