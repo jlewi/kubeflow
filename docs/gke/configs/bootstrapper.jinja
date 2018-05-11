@@ -1,0 +1,29 @@
+{#
+
+TODO(jlewi): Need to figure out how to keep this in sync with the actual bootstrap.yaml spec.
+One option would be to write a simple script to autogenerate this as part of the release process.
+
+#}
+
+{% set CLUSTER_TYPE = env['project'] + '/' + properties['clusterTypeApiV1'] %}
+
+{% set COLLECTION_PREFIX = '/api/v1/namespaces/{namespace}/' %}
+{% set NAMESPACE_COLLECTION = '/api/v1/namespaces' %}
+{% set RC_COLLECTION = COLLECTION_PREFIX + 'replicationcontrollers' %}
+{% set SERVICE_COLLECTION = COLLECTION_PREFIX + 'services' %}
+
+{% set NAME_PREFIX = 'bootstrap' + '-' + env['name'] %}
+
+resources:
+- name: {{ NAME_PREFIX }}
+  type: cloud-ml-dev/jlewi-kubeflow-kubeflow-type
+  {#
+   type: properties["clusterTypeApiV1"]:NAMESPACE_COLLECTION
+   TODO(jlewi): How can we use references to plug this in
+   #}
+  properties:
+    apiVersion: v1
+    kind: Namespace
+    metadata:
+      name: kubeflow-admin
+

@@ -14,6 +14,7 @@
 
 imports:
 - path: cluster.jinja
+- path: bootstrapper.jinja
 
 resources:
 - name: kubeflow
@@ -30,4 +31,9 @@ resources:
     pool-version: v1
     # Two is small enough to fit within default quota.
     cpu-pool-initialNodeCount: 2
-    gpu-pool-initialNodeCount: 0    
+    gpu-pool-initialNodeCount: 0 
+
+- name: bootstrapper
+  type: bootstrapper.jinja
+  properties:
+    clusterTypeApiV1: $(ref.kubeflow.clusterType)
