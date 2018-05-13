@@ -148,7 +148,7 @@ e.g. creating namespaces, service accounts, stateful set to run the bootstrapper
     descriptorUrl: https://$(ref.{{ CLUSTER_NAME }}.endpoint)/swaggerapi/{{ endpoint }}
 {% endfor %}
 
-- name: {{ NAME_PREFIX }}
+- name: test-service
   type: {{ CLUSTER_TYPE_API_V1 }}:{{ SERVICE_COLLECTION }}
   properties:
     apiVersion: v1
