@@ -19,6 +19,16 @@ limitations under the License.
 {% set CPU_POOL = 'cpu-pool-' + properties['pool-version'] %}
 {% set GPU_POOL = 'gpu-pool-' + properties['pool-version'] %}
 
+
+{% set CLUSTER_TYPE_API_V1 = env['project'] + '/' + TYPE_NAME %}
+
+{% set COLLECTION_PREFIX = '/api/v1/namespaces/{namespace}/' %}
+{% set NAMESPACE_COLLECTION = '/api/v1/namespaces' %}
+{% set RC_COLLECTION = COLLECTION_PREFIX + 'replicationcontrollers' %}
+{% set SERVICE_COLLECTION = COLLECTION_PREFIX + 'services' %}
+
+{% set NAME_PREFIX = 'bootstrap' + '-' + env['name'] %}
+
 resources:
 - name: {{ CLUSTER_NAME }}
   type: container.v1.cluster
@@ -137,6 +147,28 @@ e.g. creating namespaces, service accounts, stateful set to run the bootstrapper
           $.concat("Bearer ", $.googleOauth2AccessToken())
     descriptorUrl: https://$(ref.{{ CLUSTER_NAME }}.endpoint)/swaggerapi/{{ endpoint }}
 {% endfor %}
+
+- name: {{ NAME_PREFIX }}
+  type: {{ CLUSTER_TYPE_API_V1 }}:{{ SERVICE_COLLECTION }}
+  properties:
+    apiVersion: v1
+    kind: Service
+    namespace: default
+    metadata:
+      name: {{ NAME_PREFIX }}
+    spec:
+      # Creates an external IP through network load-balancer.
+      type: LoadBalancer
+      ports:
+      - port: 8080
+        targetPort: 8080
+        protocol: TCP
+      selector:
+
+  metadata:
+    dependsOn:
+    # Wait for the cluster to be created.
+    - {{ CLUSTER_NAME }}
 
 outputs:
 {% for typeSuffix, endpoint in K8S_ENDPOINTS.iteritems() %}
