@@ -15,6 +15,7 @@
 imports:
 - path: cluster.jinja
 - path: bootstrapper.jinja
+- path: replicatedservice.jinja
 
 resources:
 - name: kubeflow
@@ -32,6 +33,12 @@ resources:
     # Two is small enough to fit within default quota.
     cpu-pool-initialNodeCount: 2
     gpu-pool-initialNodeCount: 0 
+
+- name: my-service
+  type: replicatedservice.jinja
+  properties:
+    clusterType: jlewi-gke-test-my-cluster-type
+    image: gcr.io/deployment-manager-examples/nodejsservicestatic
 
 #- name: my-service
 #  type: bootstrapper.jinja
