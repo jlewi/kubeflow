@@ -148,6 +148,11 @@ e.g. creating namespaces, service accounts, stateful set to run the bootstrapper
     descriptorUrl: https://$(ref.{{ CLUSTER_NAME }}.endpoint)/swaggerapi/{{ endpoint }}
 {% endfor %}
 
+{#
+This doesn't work because the typeProvider {{ CLUSTER_TYPE_API_V1 }}
+doesn't exist
+
+#}
 - name: test-service
   type: {{ CLUSTER_TYPE_API_V1 }}:{{ SERVICE_COLLECTION }}
   properties:
@@ -166,9 +171,9 @@ e.g. creating namespaces, service accounts, stateful set to run the bootstrapper
       selector:
 
   metadata:
-    dependsOn:
-    # Wait for the cluster to be created.
-    - {{ CLUSTER_NAME }}
+      dependsOn:
+      # Wait for the type provider to be created.
+      - {{ TYPE_NAME }}
 
 outputs:
 {% for typeSuffix, endpoint in K8S_ENDPOINTS.iteritems() %}
