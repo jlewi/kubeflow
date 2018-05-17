@@ -38,4 +38,4 @@ resources:
     pool-version: v1
     # Two is small enough to fit within default quota.
     cpu-pool-initialNodeCount: 2
-    gpu-pool-initialNodeCount: 0 
+    gpu-pool-initialNodeCount: 0
