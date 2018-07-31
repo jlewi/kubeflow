@@ -162,18 +162,18 @@ else
 fi
 
 function createGcpSecret() {
-  EMAIL=$1
-  SECRET=$2
+  local EMAIL=$1
+  local SECRET=$2
 
-  O=`kubectl get secret --namespace=${K8S_NAMESPACE} ${SECRET} 2>&1`
-  RESULT=$?
+  local O=`kubectl get secret --namespace=${K8S_NAMESPACE} ${SECRET} 2>&1`
+  local RESULT=$?
 
   if [ "${RESULT}" -eq 0 ]; then
     echo secret ${SECRET} already exists
     return
   fi
 
-  FILE=${KUBEFLOW_SECRETS_DIR}/${EMAIL}.json
+  local FILE=${KUBEFLOW_SECRETS_DIR}/${EMAIL}.json
   gcloud --project=${PROJECT} iam service-accounts keys create ${FILE} --iam-account ${EMAIL}
 
   kubectl create secret generic --namespace=${K8S_NAMESPACE} ${SECRET} --from-file=${SECRET}.json=${FILE}
