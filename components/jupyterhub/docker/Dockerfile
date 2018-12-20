@@ -12,10 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM jupyterhub/jupyterhub:0.9
+FROM jupyterhub/jupyterhub:0.9.4
 
 RUN pip install  --no-cache-dir \
-                 jupyterhub-kubespawner==0.9.0 \
+                 jupyterhub-kubespawner==0.10.1 \
                  jupyterhub-dummyauthenticator \
                  jhub_remote_user_authenticator \
                  oauthenticator
