@@ -18,7 +18,8 @@ TAG ?= $(shell git describe --tags --always --long)
 
 build-gcb:
 	echo image: \"gcr.io/$(PROJECT)/jupyter-web-app:$(TAG)\" > $(OUTPUT)
-	#gcloud --project=$(PROJECT) \
-	#	builds submit \
-	#	--machine-type=n1-highcpu-32 \
-	#	--tag=gcr.io/$(PROJECT)/jupyter-web-app:$(TAG) .
+	gcloud --project=$(PROJECT) \
+		builds submit \
+		--machine-type=n1-highcpu-32 \
+		--substitutions=_GIT_VERSION=$(TAG),TAG_NAME=$(TAG) \
+		--config=cloudbuild.yaml .
